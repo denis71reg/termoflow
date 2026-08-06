@@ -34,10 +34,10 @@ class _MainScreenState extends State<MainScreen> {
   // Начинаем со вкладки "Запасы" (индекс 0)
   int _selectedIndex = 0; 
 
-  // Подключаем наши экраны
+  // Подключаем все наши экраны
   static const List<Widget> _screens = <Widget>[
     InventoryScreen(), 
-    Center(child: Text('Рецепты', style: TextStyle(fontSize: 24))),
+    RecipesScreen(), 
     GrillScreen(), 
   ];
 
@@ -142,6 +142,86 @@ class InventoryScreen extends StatelessWidget {
                   style: TextStyle(color: daysColor, fontWeight: FontWeight.bold, fontSize: 20)
                 ),
                 const Text('осталось', style: TextStyle(fontSize: 12, color: Colors.grey)),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class RecipesScreen extends StatelessWidget {
+  const RecipesScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> recipes = [
+      {
+        'title': 'Стейк Рибай (Ribeye)',
+        'temp': '54°C - 58°C (Medium Rare)',
+        'time': '15-20 мин',
+        'description': 'Классический мраморный отруб. Обжарка на прямом жаре до корочки, затем доведение до целевой температуры в зоне косвенного жара.',
+      },
+      {
+        'title': 'Техасский Брискет (Brisket)',
+        'temp': '93°C - 96°C',
+        'time': '12-16 часов',
+        'description': 'Говяжья грудинка низкотемпературного копчения (Low & Slow). Требует стабильного поддержания температуры в камере около 110-120°C.',
+      },
+      {
+        'title': 'Свиные ребрышки 3-2-1',
+        'temp': 'До отделения от кости',
+        'time': '6 часов',
+        'description': 'Легендарный метод BBQ: 3 часа копчения на решетке, 2 часа в фольге с соком/маслом и 1 час досушивания с глазурью.',
+      },
+    ];
+
+    return ListView.builder(
+      padding: const EdgeInsets.all(16),
+      itemCount: recipes.length,
+      itemBuilder: (context, index) {
+        final recipe = recipes[index];
+        return Card(
+          margin: const EdgeInsets.only(bottom: 16),
+          elevation: 3,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        recipe['title'],
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Chip(
+                      label: Text(recipe['time'], style: const TextStyle(color: Colors.white, fontSize: 12)),
+                      backgroundColor: Colors.deepOrange,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    const Icon(Icons.local_fire_department, size: 16, color: Colors.orangeAccent),
+                    const SizedBox(width: 6),
+                    Text(
+                      'Цель: ${recipe['temp']}',
+                      style: const TextStyle(color: Colors.orangeAccent, fontWeight: FontWeight.w600),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  recipe['description'],
+                  style: const TextStyle(color: Colors.grey, height: 1.4),
+                ),
               ],
             ),
           ),
