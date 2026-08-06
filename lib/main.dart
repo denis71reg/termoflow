@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:upgrader/upgrader.dart';
 
 void main() {
   runApp(const TermoFlowApp());
@@ -31,10 +32,8 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  // Начинаем со вкладки "Запасы" (индекс 0)
   int _selectedIndex = 0; 
 
-  // Подключаем все наши экраны
   static const List<Widget> _screens = <Widget>[
     InventoryScreen(), 
     RecipesScreen(), 
@@ -49,30 +48,37 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('TermoFlow', style: TextStyle(fontWeight: FontWeight.bold)),
-        centerTitle: true,
+    return UpgradeAlert(
+      upgrader: Upgrader(
+        showIgnore: false,
+        showLater: true,
+        showReleaseNotes: true,
       ),
-      body: _screens.elementAt(_selectedIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.kitchen),
-            label: 'Запасы',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.menu_book),
-            label: 'Рецепты',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.thermostat),
-            label: 'Гриль',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.deepOrange,
-        onTap: _onItemTapped,
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('TermoFlow', style: TextStyle(fontWeight: FontWeight.bold)),
+          centerTitle: true,
+        ),
+        body: _screens.elementAt(_selectedIndex),
+        bottomNavigationBar: BottomNavigationBar(
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.kitchen),
+              label: 'Запасы',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.menu_book),
+              label: 'Рецепты',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.thermostat),
+              label: 'Гриль',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.deepOrange,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }
@@ -83,7 +89,6 @@ class InventoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Временные данные для проверки интерфейса
     final List<Map<String, dynamic>> items = [
       {'name': 'Стейк Рибай (PrimeFoods)', 'package': 'Вакуум', 'daysLeft': 14},
       {'name': 'Брискет', 'package': 'Вакуум', 'daysLeft': 5},
@@ -97,12 +102,11 @@ class InventoryScreen extends StatelessWidget {
         final item = items[index];
         final int days = item['daysLeft'];
         
-        // Логика цветовой индикации сроков
-        Color daysColor = Colors.greenAccent; // Всё отлично
+        Color daysColor = Colors.greenAccent;
         if (days <= 2) {
-          daysColor = Colors.redAccent; // Срочно готовить
+          daysColor = Colors.redAccent;
         } else if (days <= 6) {
-          daysColor = Colors.orangeAccent; // Скоро истекает
+          daysColor = Colors.orangeAccent;
         }
 
         return Card(
@@ -239,7 +243,6 @@ class GrillScreen extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
-        // Карточка активного процесса
         Card(
           elevation: 3,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -262,7 +265,6 @@ class GrillScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 16),
-                // Зонд 1: Мясо
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
@@ -279,7 +281,6 @@ class GrillScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(4),
                 ),
                 const SizedBox(height: 16),
-                // Зонд 2: Гриль / Камера
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: const [
