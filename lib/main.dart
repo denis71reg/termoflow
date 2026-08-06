@@ -31,12 +31,12 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  // Начинаем со вкладки "Гриль" (индекс 2)
-  int _selectedIndex = 2; 
+  // Начинаем со вкладки "Запасы" (индекс 0), чтобы сразу увидеть результат
+  int _selectedIndex = 0; 
 
-  // Заглушки для наших будущих экранов
+  // Подключаем наш новый экран вместо первой заглушки
   static const List<Widget> _screens = <Widget>[
-    Center(child: Text('Холодильники и запасы', style: TextStyle(fontSize: 24))),
+    InventoryScreen(), 
     Center(child: Text('Рецепты', style: TextStyle(fontSize: 24))),
     Center(child: Text('Термометры и готовка', style: TextStyle(fontSize: 24))),
   ];
@@ -74,6 +74,79 @@ class _MainScreenState extends State<MainScreen> {
         selectedItemColor: Colors.deepOrange,
         onTap: _onItemTapped,
       ),
+    );
+  }
+}
+
+class InventoryScreen extends StatelessWidget {
+  const InventoryScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // Временные данные для проверки интерфейса
+    final List<Map<String, dynamic>> items = [
+      {'name': 'Стейк Рибай (PrimeFoods)', 'package': 'Вакуум', 'daysLeft': 14},
+      {'name': 'Брискет', 'package': 'Вакуум', 'daysLeft': 5},
+      {'name': 'Говяжья вырезка', 'package': 'Обычный пакет', 'daysLeft': 1},
+    ];
+
+    return ListView.builder(
+      padding: const EdgeInsets.only(top: 16),
+      itemCount: items.length,
+      itemBuilder: (context, index) {
+        final item = items[index];
+        final int days = item['daysLeft'];
+        
+        // Логика цветовой индикации сроков
+        Color daysColor = Colors.greenAccent; // Всё отлично
+        if (days <= 2) {
+          daysColor = Colors.redAccent; // Срочно готовить
+        } else if (days <= 6) {
+          daysColor = Colors.orangeAccent; // Скоро истекает
+        }
+
+        return Card(
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          elevation: 2,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          child: ListTile(
+            contentPadding: const EdgeInsets.all(12),
+            leading: CircleAvatar(
+              backgroundColor: Colors.deepOrange.withOpacity(0.2),
+              child: const Icon(Icons.kitchen, color: Colors.deepOrange),
+            ),
+            title: Text(
+              item['name'], 
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)
+            ),
+            subtitle: Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Row(
+                children: [
+                  Icon(
+                    item['package'] == 'Вакуум' ? Icons.check_circle : Icons.inventory_2, 
+                    size: 16, 
+                    color: Colors.grey
+                  ),
+                  const SizedBox(width: 6),
+                  Text(item['package']),
+                ],
+              ),
+            ),
+            trailing: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  '$days дн.', 
+                  style: TextStyle(color: daysColor, fontWeight: FontWeight.bold, fontSize: 20)
+                ),
+                const Text('осталось', style: TextStyle(fontSize: 12, color: Colors.grey)),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
