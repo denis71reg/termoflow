@@ -31,14 +31,14 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  // Начинаем со вкладки "Запасы" (индекс 0), чтобы сразу увидеть результат
+  // Начинаем со вкладки "Запасы" (индекс 0)
   int _selectedIndex = 0; 
 
-  // Подключаем наш новый экран вместо первой заглушки
+  // Подключаем наши экраны
   static const List<Widget> _screens = <Widget>[
     InventoryScreen(), 
     Center(child: Text('Рецепты', style: TextStyle(fontSize: 24))),
-    Center(child: Text('Термометры и готовка', style: TextStyle(fontSize: 24))),
+    GrillScreen(), 
   ];
 
   void _onItemTapped(int index) {
@@ -147,6 +147,71 @@ class InventoryScreen extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class GrillScreen extends StatelessWidget {
+  const GrillScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        // Карточка активного процесса
+        Card(
+          elevation: 3,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.between,
+                  children: const [
+                    Text(
+                      '🔥 Рибай на решетке',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Chip(
+                      label: Text('Готовится', style: TextStyle(color: Colors.white)),
+                      backgroundColor: Colors.deepOrange,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                // Зонд 1: Мясо
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Text('Зонд 1 (Центр стейка):', style: TextStyle(color: Colors.grey)),
+                    Text('54°C / 58°C', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.orangeAccent)),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                LinearProgressIndicator(
+                  value: 54 / 58,
+                  backgroundColor: Colors.grey.shade800,
+                  color: Colors.deepOrange,
+                  minHeight: 8,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                const SizedBox(height: 16),
+                // Зонд 2: Гриль / Камера
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Text('Температура в камере:', style: TextStyle(color: Colors.grey)),
+                    Text('135°C', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
