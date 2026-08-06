@@ -50,10 +50,11 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return UpgradeAlert(
       upgrader: Upgrader(
-        showIgnore: false,
         showLater: true,
         showReleaseNotes: true,
       ),
+      child: Scaffold(
+        // ... остальной код
       child: Scaffold(
         appBar: AppBar(
           title: const Text('TermoFlow', style: TextStyle(fontWeight: FontWeight.bold)),
