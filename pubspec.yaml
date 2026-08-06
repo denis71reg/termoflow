@@ -1,7 +1,7 @@
 name: termoflow
 description: "A new Flutter project for BBQ and telemetry."
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.0+2  # Было +1, стало +2 (и так далее при каждом изменении)
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
