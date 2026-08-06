@@ -7,9 +7,10 @@ environment:
   sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
+  dependencies:
   flutter:
     sdk: flutter
-  upgrader: ^10.7.0
+  upgrader: ^13.6.0
 
 dev_dependencies:
   flutter_test:
