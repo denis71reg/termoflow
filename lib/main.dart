@@ -15,7 +15,7 @@ class TermoFlowApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.deepOrange, 
-          brightness: Brightness.dark, // Темная тема
+          brightness: Brightness.dark,
         ),
         useMaterial3: true,
       ),
@@ -49,12 +49,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return UpgradeAlert(
-      upgrader: Upgrader(
-        showLater: true,
-        showReleaseNotes: true,
-      ),
-      child: Scaffold(
-        // ... остальной код
       child: Scaffold(
         appBar: AppBar(
           title: const Text('TermoFlow', style: TextStyle(fontWeight: FontWeight.bold)),
